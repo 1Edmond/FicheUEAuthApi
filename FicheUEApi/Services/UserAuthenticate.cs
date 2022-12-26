@@ -21,16 +21,15 @@ public class UserAuthenticate : IAuthentification
 
     private string GetToken(string role)
     {
-
+        var credentials = new SigningCredentials(MyConstants.SIGN_KEY, SecurityAlgorithms.HmacSha256);
         if (role == "Admin")
         {
-            var credentials = new SigningCredentials(MyConstants.SIGN_KEY, SecurityAlgorithms.HmacSha256);
             var section = new JwtSecurityToken(
                 issuer: MyConstants.ISSUER,
                 audience: MyConstants.AUDIANCE,
                 claims: new List<Claim>()
                 {
-                        new Claim(ClaimTypes.Role,"Admin")
+                    new Claim(ClaimTypes.Role,"Admin")
                 },
                 expires: DateTime.UtcNow.AddMinutes(MyConstants.EXPIRE),
                 signingCredentials: credentials
@@ -43,13 +42,11 @@ public class UserAuthenticate : IAuthentification
         }
         else
         {
-            var credentials = new SigningCredentials(MyConstants.SIGN_KEY, SecurityAlgorithms.HmacSha256);
             var section = new JwtSecurityToken(
-                issuer: "friedo",
-                audience: "wicode",
-                expires: DateTime.UtcNow.AddMinutes(20),
-                signingCredentials: credentials
-                );
+                issuer: MyConstants.ISSUER,
+                audience: MyConstants.AUDIANCE,
+                expires: DateTime.UtcNow.AddMinutes(MyConstants.EXPIRE),
+                signingCredentials: credentials);
             var handler = new JwtSecurityTokenHandler();
 
             var stringToken = handler.WriteToken(section);

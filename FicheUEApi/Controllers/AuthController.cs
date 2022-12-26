@@ -32,7 +32,6 @@ public class AuthController : ControllerBase
 			var token = _authentification.AuthenticateUser(email, password).Result;
 			if(!String.IsNullOrEmpty(token)) 
 				return Ok(token);
-			
 		}
         return NotFound();
 	}
